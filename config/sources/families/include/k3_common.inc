@@ -81,6 +81,13 @@ function add_host_dependencies__k3_python3_dep() {
 	declare -g EXTRA_BUILD_DEPS="${EXTRA_BUILD_DEPS} python3-yaml python3-jsonschema yamllint python3-cryptography python3-pyelftools python3-setuptools"
 }
 
+function add_host_dependencies__k3_optee_compiler() {
+	# OP-TEE explicitly selects gnueabihf compiler (see function compile_k3_optee below in this file).
+	# gnueabihf compiler is automatically provided when using a Docker build, but not when doing native builds
+	# add it explicitly as a dependency
+	declare -g EXTRA_BUILD_DEPS="${EXTRA_BUILD_DEPS} gcc-arm-linux-gnueabihf"
+}
+
 function compile_k3_bootgen() {
 	# Source code checkout
 	(fetch_from_repo "https://github.com/TexasInstruments/ti-linux-firmware" "ti-linux-firmware" ${TI_LINUX_FIRMWARE_BRANCH})
